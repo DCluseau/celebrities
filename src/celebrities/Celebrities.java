@@ -23,6 +23,7 @@ public class Celebrities {
 		ArrayList<Integer> celebritiesList = new ArrayList<Integer>();
 		ArrayList<Integer> anybodyList = new ArrayList<Integer>();
 		ArrayList<Integer> knownGuests = new ArrayList<Integer>();
+		boolean celebFound = true;
 		knownGuests.add(2);
 		knownGuests.add(5);
 		knownGuests.add(6);
@@ -65,17 +66,27 @@ public class Celebrities {
 		knownGuests.add(6);
 		knownGuests.add(7);
 		guestsList = addGuest(8, "Heloïse", knownGuests, guestsList);
+		for(int i = 0; i < 8; i++) {
+			anybodyList.add(i+1);
+		}
 		
-		for(int key : guestsList.keySet()) {
-			for(String knownIn : guestsList.get(key).keySet()) {
-				if(!guestsList.get(key).get(knownIn).contains(key)) {
-					anybodyList.add(key);
-					if(celebritiesList.contains(key)) {
-						celebritiesList.remove(key);
+		for(int i = 0; i < anybodyList.size(); i++) {
+			celebFound = true;
+			for(Integer guest : guestsList.keySet()) {
+				if(guest != anybodyList.get(i)){
+					for(String name : guestsList.get(guest).keySet()) {
+						if(guestsList.get(guest).get(name).contains(anybodyList.get(i))) {
+							celebFound = false;
+							break;
+						}
 					}
-				}else if(guestsList.get(key).get(knownIn).contains(key) && !anybodyList.contains(key)) {
-					celebritiesList.add(key);
+					celebFound = false;
+					break;
 				}
+			}
+			if(celebFound) {
+				celebritiesList.add(anybodyList.get(i));
+				anybodyList.remove(anybodyList.indexOf(anybodyList.get(i)));
 			}
 		}
 		System.out.println("Normal guests list : ");
@@ -86,15 +97,6 @@ public class Celebrities {
 		for(int i = 0 ; i < celebritiesList.size() ; i++) {
 			System.out.println(guestsList.get(celebritiesList.get(i)));
 		}
-		//for(int i = 0; i < guestsList.size(); i++) {
-			/*
-			 * for(int j = 0 ; j < guestsList.size() ; j++) {
-			 * if(guestsList.get(i).containsKey(guestsList.get(j))) {
-			 * if(celebritiesList.contains(guestsList.get(j))) {
-			 * celebritiesList.remove(guestsList.get(j)); anybodyList.add(guestsList.get(j))
-			 * } } }
-			 */
-		//}
 	}
 
 }
