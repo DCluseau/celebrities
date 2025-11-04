@@ -75,19 +75,20 @@ public class Celebrities {
 			for(Integer guest : guestsList.keySet()) {
 				if(guest != anybodyList.get(i)){
 					for(String name : guestsList.get(guest).keySet()) {
-						if(guestsList.get(guest).get(name).contains(anybodyList.get(i))) {
+						System.out.println(guestsList.get(guest).get(name));
+						if(!guestsList.get(guest).get(name).contains(anybodyList.get(i))) {
 							celebFound = false;
 							break;
 						}
 					}
-					celebFound = false;
-					break;
 				}
 			}
 			if(celebFound) {
 				celebritiesList.add(anybodyList.get(i));
-				anybodyList.remove(anybodyList.indexOf(anybodyList.get(i)));
 			}
+		}
+		for(int i = 0 ; i < celebritiesList.size(); i++) {
+			anybodyList.remove(anybodyList.indexOf(celebritiesList.get(i)));
 		}
 		System.out.println("Normal guests list : ");
 		for(int i = 0 ; i < anybodyList.size() ; i++) {
