@@ -12,12 +12,12 @@ public class Celebrities {
 		listGuests.put(number, guest);
 		return listGuests;
 	}
-	
+
 	public static ArrayList<Integer> addList(int personNumber, ArrayList<Integer> listToAdd){
 		listToAdd.add(personNumber);
 		return listToAdd;
 	}
-	
+
 	public static void main(String[] args) {
 		HashMap<Integer, HashMap<String, ArrayList<Integer>>> guestsList = new HashMap<Integer, HashMap<String, ArrayList<Integer>>>();
 		ArrayList<Integer> celebritiesList = new ArrayList<Integer>();
@@ -69,13 +69,14 @@ public class Celebrities {
 		for(int i = 0; i < 8; i++) {
 			anybodyList.add(i+1);
 		}
-		
+
+		// Search for celebrities
 		for(int i = 0; i < anybodyList.size(); i++) {
 			celebFound = true;
 			for(Integer guest : guestsList.keySet()) {
 				if(guest != anybodyList.get(i)){
 					for(String name : guestsList.get(guest).keySet()) {
-						System.out.println(guestsList.get(guest).get(name));
+						//System.out.println(guestsList.get(guest).get(name));
 						if(!guestsList.get(guest).get(name).contains(anybodyList.get(i))) {
 							celebFound = false;
 							break;
@@ -90,6 +91,36 @@ public class Celebrities {
 		for(int i = 0 ; i < celebritiesList.size(); i++) {
 			anybodyList.remove(anybodyList.indexOf(celebritiesList.get(i)));
 		}
+
+		// Find "false" celebrities
+		int numCeleb = 0;
+		HashMap<String, ArrayList<Integer>> listCeleb;
+		for(int i = 0; i < celebritiesList.size(); i++) { 
+			celebFound = true; 
+			numCeleb = celebritiesList.get(i);
+			listCeleb = guestsList.get(numCeleb);
+			for(String guestCeleb : listCeleb.keySet()) {
+				System.out.println(guestCeleb);
+				for(int j = 0; j < guestsList.get(numCeleb).get(guestCeleb).size(); j++) {
+					if(anybodyList.contains(guestsList.get(numCeleb).get(guestCeleb).get(j))) {
+						celebFound = false;
+						break;
+					}
+				}
+			}
+			if(!celebFound) {
+				anybodyList.add(numCeleb);
+			}
+		}
+
+		// Remove false celebrities from celebrities list
+		for(int i = 0 ; i < anybodyList.size(); i++) {
+			if(celebritiesList.contains(anybodyList.get(i))) {
+				celebritiesList.remove(celebritiesList.indexOf(anybodyList.get(i)));
+			}	
+		}
+
+		// Display lists
 		System.out.println("Normal guests list : ");
 		for(int i = 0 ; i < anybodyList.size() ; i++) {
 			System.out.println(guestsList.get(anybodyList.get(i)));
